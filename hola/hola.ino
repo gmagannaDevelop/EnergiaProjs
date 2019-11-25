@@ -12,7 +12,7 @@
 #define LOAD_PIN    P1_4        // load CS for AS1106
 
 // Proto: LedControl(int dataPin, int clkPin, int csPin, int numDevices=1);
-LedControl lc=LedControl(DATA_PIN, CLOCK_PIN, LOAD_PIN, 4);
+LedControl lc=LedControl(DATA_PIN, CLOCK_PIN, LOAD_PIN, 1);
 
 unsigned long delaytime=100;
 
@@ -44,8 +44,13 @@ void loop() {
   digitalWrite(RED_LED, HIGH);
   lc.clearDisplay(0);
 
-lc.setColumn (0, 0, B00111000);
-lc.setColumn(2,7,B00011100);
-  
+  int i;
+  for (i=0; i<4; i++)
+  { 
+    lc.setColumn(0, i, B00111000);
+    delay(1000);
+    lc.clearDisplay(0);
+    delay(1000);
+  }  
 
 }
