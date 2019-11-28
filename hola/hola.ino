@@ -51,19 +51,16 @@ void loop() {
   int i;
   byte pos_y = B00111000;
    
-  if (P1_UP == 0)
-  {
-    if (pos_y != B11100000){
-      pos_y = pos_y << 1;
-    }
+  while (pos_y != B11100000){
+    delay(500);
+    pos_y = pos_y << 1;
+    lc.setColumn(0, 0, pos_y);
   }
-  if (P1_DOWN == 0)
-  {
-    if (pos_y != B00000111){
-      pos_y = pos_y >> 1;
-    }
+  while (pos_y != B00000111){
+    delay(500);
+    pos_y = pos_y >> 1;
+    lc.setColumn(0, 0, pos_y);
   }
-    
-  lc.setColumn(0, 0, pos_y);
+   
 
 }
