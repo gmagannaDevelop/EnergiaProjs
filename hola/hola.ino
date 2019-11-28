@@ -18,7 +18,7 @@ LedControl lc=LedControl(DATA_PIN, CLOCK_PIN, LOAD_PIN, -4);
 
 unsigned long delaytime=100;
 byte pos_y1 = B00111000;
-byte pos_y2 = B00111000;
+byte pos_y2 = B00011100;
 
 void setup() {
 
@@ -49,20 +49,20 @@ void loop() {
 
   int i;
    
-  while ( (pos_y1 != B11100000) && (pos_y2 != B00000111) ){
+  do {
     delay(500);
     pos_y1 = pos_y1 << 1;
     pos_y2 = pos_y2 >> 1;
     lc.setColumn(0, 0, pos_y1);
     lc.setColumn(0, 7, pos_y2);
-  }
-  while ( (pos_y1 != B00000111) && (pos_y2 != B11100000)){
+  } while ( (pos_y1 != B11100000) && (pos_y2 != B00000111) );
+  do {
     delay(500);
     pos_y1 = pos_y1 >> 1;
     pos_y2 = pos_y2 << 1;
     lc.setColumn(0, 0, pos_y1);
     lc.setColumn(0, 7, pos_y2);
-  }
+  } while ( (pos_y1 != B00000111) && (pos_y2 != B11100000) );
   /*
   while (pos_y2 != B00000111){
     delay(500);
