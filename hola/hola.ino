@@ -21,9 +21,28 @@ LedControl lc=LedControl(DATA_PIN, CLOCK_PIN, LOAD_PIN, -4);
 unsigned long delaytime=100;
 byte pos_y1 = B00111000;
 byte pos_y2 = B00011100;
+byte ballx  = B00100000;
+byte bally  = B00010000;
 
+class Ball
+{
+  private:
+    int xVelocity;
+    int yVelocity;
 
+  public:
+    ball(byte startX, byte startY);
+    byte getPositionY();
+    byte getPositionX();
+    void reboundBat();
+    void reboundWall();
+    void miss();  
+}
 
+Ball::ball(int startX, int startY)
+{
+  
+}
 
 
 void setup() {
@@ -54,7 +73,12 @@ void loop() {
   lc.clearDisplay(0);
 
   int i;
-
+if(pos_y1 != TOP)
+  {
+  pos_y1 = posy_1 >> 1;
+  }
+  
+/*
   do {
     delay(250);
     pos_y1 = pos_y1 >> 1;
@@ -71,8 +95,9 @@ void loop() {
     lc.setColumn(0, 0, pos_y1);
     lc.setColumn(0, 7, pos_y2);
     delay(250);
-  } while ( (pos_y1 != BOTTOM) && (pos_y2 != TOP) );
-  
+  } while ( (pos_y1 != BOTTOM) && (pos_y2 != TOP) );*/
+
+  while(
 
   /*
   while (pos_y2 != B00000111){
