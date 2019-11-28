@@ -54,13 +54,13 @@ void loop() {
   if (P1_UP == 0)
   {
     if (pos_y != B11100000){
-      pos_y <<= 1;
+      pos_y = pos_y << 1;
     }
   }
   if (P1_DOWN == 0)
   {
     if (pos_y != B00000111){
-      pos_y >>= 1;
+      pos_y = pos_y >> 1;
     }
   }
     
