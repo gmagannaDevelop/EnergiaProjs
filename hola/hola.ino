@@ -12,6 +12,8 @@
 #define LOAD_PIN    P1_4        // load CS for AS1106
 #define P1_UP       P1_6        // pin to signal up
 #define P1_DOWN     P1_7        // pin to signal down.
+#define TOP         B00000111
+#define BOTTOM      B11100000
 
 // Proto: LedControl(int dataPin, int clkPin, int csPin, int numDevices=1);
 LedControl lc=LedControl(DATA_PIN, CLOCK_PIN, LOAD_PIN, -4);
@@ -56,7 +58,7 @@ void loop() {
     lc.setColumn(0, 0, pos_y1);
     lc.setColumn(0, 7, pos_y2);
     delay(250);
-  } while ( (pos_y1 != B00000111) && (pos_y2 != B11100000) );
+  } while ( (pos_y1 != TOP) && (pos_y2 != BOTTOM) );
    
   do {
     delay(250);
@@ -65,7 +67,7 @@ void loop() {
     lc.setColumn(0, 0, pos_y1);
     lc.setColumn(0, 7, pos_y2);
     delay(250);
-  } while ( (pos_y1 != B11100000) && (pos_y2 != B00000111) );
+  } while ( (pos_y1 != BOTTOM) && (pos_y2 != TOP) );
   
 
   /*
