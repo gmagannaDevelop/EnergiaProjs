@@ -22,6 +22,10 @@ unsigned long delaytime=100;
 byte pos_y1 = B00111000;
 byte pos_y2 = B00011100;
 
+
+
+
+
 void setup() {
 
   pinMode(RED_LED,OUTPUT);
