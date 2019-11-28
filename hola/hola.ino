@@ -17,7 +17,7 @@
 LedControl lc=LedControl(DATA_PIN, CLOCK_PIN, LOAD_PIN, 4);
 
 unsigned long delaytime=100;
-
+byte pos_y = B00111000;
 
 void setup() {
 
@@ -33,8 +33,6 @@ void setup() {
   delay(1000);
   digitalWrite(RED_LED, LOW);
 
-
-
   lc.init();
   lc.shutdown(0,false);
   lc.setIntensity(0,10);
@@ -49,7 +47,6 @@ void loop() {
   lc.clearDisplay(0);
 
   int i;
-  byte pos_y = B00111000;
    
   while (pos_y != B11100000){
     delay(500);
