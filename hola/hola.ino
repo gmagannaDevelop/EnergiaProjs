@@ -48,21 +48,26 @@ void loop() {
   lc.clearDisplay(0);
 
   int i;
-   
+
   do {
-    delay(500);
-    pos_y1 = pos_y1 << 1;
-    pos_y2 = pos_y2 >> 1;
-    lc.setColumn(0, 0, pos_y1);
-    lc.setColumn(0, 7, pos_y2);
-  } while ( (pos_y1 != B11100000) && (pos_y2 != B00000111) );
-  do {
-    delay(500);
+    delay(250);
     pos_y1 = pos_y1 >> 1;
     pos_y2 = pos_y2 << 1;
     lc.setColumn(0, 0, pos_y1);
     lc.setColumn(0, 7, pos_y2);
+    delay(250);
   } while ( (pos_y1 != B00000111) && (pos_y2 != B11100000) );
+   
+  do {
+    delay(250);
+    pos_y1 = pos_y1 << 1;
+    pos_y2 = pos_y2 >> 1;
+    lc.setColumn(0, 0, pos_y1);
+    lc.setColumn(0, 7, pos_y2);
+    delay(250);
+  } while ( (pos_y1 != B11100000) && (pos_y2 != B00000111) );
+  
+
   /*
   while (pos_y2 != B00000111){
     delay(500);
