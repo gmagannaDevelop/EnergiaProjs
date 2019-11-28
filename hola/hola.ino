@@ -14,10 +14,11 @@
 #define P1_DOWN     P1_7        // pin to signal down.
 
 // Proto: LedControl(int dataPin, int clkPin, int csPin, int numDevices=1);
-LedControl lc=LedControl(DATA_PIN, CLOCK_PIN, LOAD_PIN, 4);
+LedControl lc=LedControl(DATA_PIN, CLOCK_PIN, LOAD_PIN, -4);
 
 unsigned long delaytime=100;
-byte pos_y = B00111000;
+byte pos_y1 = B00111000;
+byte pos_y2 = B00111000;
 
 void setup() {
 
@@ -48,16 +49,31 @@ void loop() {
 
   int i;
    
-  while (pos_y != B11100000){
+  while ( (pos_y1 != B11100000) && (pos_y2 != B00000111) ){
     delay(500);
-    pos_y = pos_y << 1;
-    lc.setColumn(0, 0, pos_y);
+    pos_y1 = pos_y1 << 1;
+    pos_y2 = pos_y2 >> 1;
+    lc.setColumn(0, 0, pos_y1);
+    lc.setColumn(0, 7, pos_y2);
   }
-  while (pos_y != B00000111){
+  while ( (pos_y1 != B00000111) && (pos_y2 != B11100000)){
     delay(500);
-    pos_y = pos_y >> 1;
-    lc.setColumn(0, 0, pos_y);
+    pos_y1 = pos_y1 >> 1;
+    pos_y2 = pos_y2 << 1;
+    lc.setColumn(0, 0, pos_y1);
+    lc.setColumn(0, 7, pos_y2);
   }
-   
+  /*
+  while (pos_y2 != B00000111){
+    delay(500);
+    pos_y2 = pos_y2 >> 1;
+    lc.setColumn(0, 7, pos_y2);
+  } 
+  while (pos_y2 != B11100000){
+    delay(500);
+    pos_y2 = pos_y2 << 1;
+    lc.setColumn(0, 7, pos_y2);
+  }
+  */
 
 }
