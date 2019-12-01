@@ -41,9 +41,6 @@ LedControl lc=LedControl(DATA_PIN, CLOCK_PIN, LOAD_PIN, 4);
 
 
 byte move_player(byte pos, int UP, int DOWN);
-void move_player_one(void);
-void move_player_two(void);
-
 
 unsigned long delaytime=100;
 byte pos_y1 = B00111000;
@@ -148,55 +145,4 @@ byte move_player(byte pos, int UP, int DOWN)
   }
 
   return pos;
-}
-
-void move_player_one(void)
-{
-  int _up   = 1 - digitalRead(P1_UP);
-  int _down = 1 - digitalRead(P1_DOWN);
-
-  if (_up) {
-    if (pos_y1 == TOP) {
-      pos_y1 = BOTTOM;
-    } 
-    else {
-      pos_y1 = pos_y1 >> 1;  
-    }  
-  }
-
-  if (_down) {
-    if (pos_y1 == BOTTOM) {
-      pos_y1 = TOP;
-    } 
-    else {
-      pos_y1 = pos_y1 << 1;  
-    }
-  }
-  
-}
-
-
-void move_player_two(void)
-{
-  int _up   = 1 - digitalRead(P2_UP);
-  int _down = 1 - digitalRead(P2_DOWN);
-
-  if (_up) {
-    if (pos_y2 == TOP) {
-      pos_y2 = BOTTOM;
-    } 
-    else {
-      pos_y2 = pos_y2 >> 1;  
-    }  
-  }
-
-  if (_down) {
-    if (pos_y2 == BOTTOM) {
-      pos_y2 = TOP;
-    } 
-    else {
-      pos_y2 = pos_y2 << 1;  
-    }
-  }
-  
 }
