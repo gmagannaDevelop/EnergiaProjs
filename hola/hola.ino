@@ -169,17 +169,19 @@ struct BALL move_ball(struct BALL ball, struct POS p1, struct POS p2)
     if ((ball.y | p1.y) == p1.y){
       ball.vx *= -1;
     }
-    else {
-      ball = reset_ball(ball);
-    } 
   }
   if ((ball.x + ball.vx) == 7){
     if ((ball.y | p2.y) == p2.y){
       ball.vx *= -1;
     }
-    else {
-      ball = reset_ball(ball);
-    }
+  }
+
+  // Check if any player looses.
+  if ((ball.x + ball.vx) == -1){
+    ball = reset_ball(ball);
+  }
+  if ((ball.x + ball.vx) == 8){
+    ball = reset_ball(ball);
   }
 
   // TEMP Update x, one step according to the velocity.
