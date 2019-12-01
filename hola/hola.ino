@@ -52,7 +52,7 @@ struct BALL {
 LedControl lc=LedControl(DATA_PIN, CLOCK_PIN, LOAD_PIN, 4);
 
 byte move_player(byte pos, int UP, int DOWN);
-void move_ball(struct BALL ball, struct POS p1, struct POS p2);
+struct BALL move_ball(struct BALL ball, struct POS p1, struct POS p2);
 
 unsigned long delaytime=100;
 
@@ -109,10 +109,12 @@ void loop() {
 
   p1.y = move_player(p1.y, P1_UP, P1_DOWN);
   p2.y = move_player(p2.y, P2_UP, P2_DOWN);
+  ball = move_ball(ball, p1, p2);
 
-  
+  lc.setColumn(0, ball.x, ball.y);
   lc.setColumn(0, p1.x, p1.y);
   lc.setColumn(0, p2.x, p2.y);
+  
 
   delay(100);
 
@@ -173,10 +175,36 @@ byte move_player(byte pos, int UP, int DOWN)
 }
 
 
-void move_ball(struct BALL ball, struct POS p1, struct POS p2)
+struct BALL move_ball(struct BALL ball, struct POS p1, struct POS p2)
 {
-  if ((ball.x == 1) || (ball.x == 6)){
-    
+  // Check bouncing with a bat/player :
+  if ((ball.x == 1)){
+    if (ball.y | p1.y == p1.y){
+      ball.vx *= -1;
+    }
   }
-    
+  if ((ball.x == 6)){
+    if (ball.y | p2.y == p2.y){
+      ball.vx *= -1;
+    }
+  }
+
+  // Check top-bottom boundaries :
+  if ((ball.y == BTOP)){
+    ball.vy = 1;
+  }
+  if ((ball.y == BBOTTOM)){
+    ball.vy = 0;
+  }
+
+  if (ball.vy){
+    ball.y = ball.y << 1;  
+  }
+  else {
+    ball.y = ball.y >> 1;  
+  } 
+
+  ball.x += ball.vx;
+
+  return ball;
 }
