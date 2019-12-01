@@ -20,7 +20,8 @@ struct BALL {
   byte y;
   int x;
   int vx;
-  int vy;  
+  int vy;
+  byte cpu_y;  
 };
 ////////////////////////////////////////////////////////////////////
 
@@ -33,7 +34,11 @@ struct BALL {
 #define P1_DOWN     4          // P1_2  pin to signal down.
 #define P2_UP       5          // P1_3  pin to signal up
 #define P2_DOWN     6          // P1_4  pin to signal down.
+#define CPU_PLAY    8          // P2_0  pin to signal if cpu plays of person.
 
+#define BALL_INIT   B00010000
+#define P1_INITIAL  B00111000
+#define P2_INITIAL  B00011100
 #define TOP         B00000111
 #define BOTTOM      B11100000    
 #define BTOP        B00000001
@@ -62,6 +67,8 @@ struct BALL ball;
 
 byte move_player(byte pos, int UP, int DOWN);
 
+byte move_cpu(byte pos, struct BALL ball);
+
 struct BALL move_ball(struct BALL ball, struct POS p1, struct POS p2);
 
 struct BALL reset_ball(struct BALL ball);
@@ -79,16 +86,18 @@ void setup() {
   pinMode(P1_DOWN, INPUT);
   pinMode(P2_UP, INPUT);
   pinMode(P2_DOWN, INPUT);
+  pinMode(CPU_PLAY, INPUT);
   digitalWrite(LOAD_PIN,HIGH);
   // BLink to test...
   digitalWrite(RED_LED, HIGH);
   delay(1000);
   digitalWrite(RED_LED, LOW);
 
-  p1.y    = B00111000;
-  p1.x    = 0;
-  p2.y    = B00011100;
-  p2.x    = 7;
+  p1.y         = P1_INITIAL;
+  p1.x         = 0;
+  p2.y         = P2_INITIAL;
+  ball.cpu_y   = P2_INITIAL; 
+  p2.x         = 7;
   sleep_cycles = 0;
 
   ball = reset_ball(ball);
@@ -110,9 +119,12 @@ void loop() {
   lc.clearDisplay(0);
 
   p1.y = move_player(p1.y, P1_UP, P1_DOWN);
-  p2.y = move_player(p2.y, P2_UP, P2_DOWN);
-  //ball = move_ball(ball, p1, p2);
-
+  if (digitalRead(CPU_PLAY)){
+    p2.y = ball.cpu_y;
+  }
+  else {
+    p2.y = move_player(p2.y, P2_UP, P2_DOWN);
+  }
 
   if (sleep_cycles > 1){
     ball = move_ball(ball, p1, p2);
@@ -157,6 +169,10 @@ byte move_player(byte pos, int UP, int DOWN)
   return pos;
 }
 
+byte move_cpu(byte pos, struct BALL ball)
+{
+   
+}
 
 struct BALL move_ball(struct BALL ball, struct POS p1, struct POS p2)
 {
@@ -170,22 +186,18 @@ struct BALL move_ball(struct BALL ball, struct POS p1, struct POS p2)
   else {        ball.y = ball.y >> 1; }
   
   // Check bouncing with a bat/player :
-  if ((ball.x + ball.vx) == 0){
-    if ((ball.y | p1.y) == p1.y){
-      ball.vx *= -1;
-    }
+  if ((ball.x + ball.vx) == 0)
+  {
+    if ((ball.y | p1.y) == p1.y) { ball.vx *= -1; }
   }
-  if ((ball.x + ball.vx) == 7){
-    if ((ball.y | p2.y) == p2.y){
-      ball.vx *= -1;
-    }
+  if ((ball.x + ball.vx) == 7)
+  {
+    if ((ball.y | p2.y) == p2.y) { ball.vx *= -1; }
   }
 
   // Check if any player looses.
-  if ((ball.x + ball.vx) == -1){
-    ball = reset_ball(ball);
-  }
-  if ((ball.x + ball.vx) == 8){
+  if (((ball.x + ball.vx) == -1) || ((ball.x + ball.vx) == 8))
+  {
     ball = reset_ball(ball);
   }
 
@@ -197,7 +209,7 @@ struct BALL move_ball(struct BALL ball, struct POS p1, struct POS p2)
 
 struct BALL reset_ball(struct BALL)
 { 
-  ball.y  = B00100000;
+  ball.y  = BALL_INIT;
   ball.x  = 3;
   ball.vy = 1 - ball.vy;
   
