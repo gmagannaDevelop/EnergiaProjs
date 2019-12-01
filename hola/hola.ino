@@ -78,44 +78,6 @@ void loop() {
 
   int i;
 
-//BATS AUTOMATICOS/
-/*
-  while(pos_y1 != BOTTOM || pos_y1 != TOP) 
-  {
-    delay(100);
-  pos_y1 = pos_y1 << 1;
-  lc.setColumn(0,0,pos_y1);
-    if (pos_y1 = TOP)
-    {
-      delay(100);
-      pos_y1 = pos_y1 >> 1;
-       lc.setColumn(0,0,pos_y1);
-    }
-
-    if (pos_y1 = BOTTOM)
-    {
-      delay(100);
-      pos_y1 = pos_y1 << 1;
-       lc.setColumn(0,0,pos_y1);
-    }
-  }
-*/
-
-  /*
-  int button1 =  digitalRead(P1_UP);
-  int button2 =  digitalRead(P1_DOWN);
-
-  if (!button1) {
-    pos_y1 = pos_y1 >> 1;
-    pos_y2 = pos_y2 << 1;
-  } 
-
-  if (!button2) {
-    pos_y1 = pos_y1 << 1;
-    pos_y2 = pos_y2 >> 1;
-  }
-  */
-
   move_player_one();
   move_player_two();
 
