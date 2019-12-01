@@ -10,8 +10,12 @@
 #define DATA_PIN    5         //       data for AS1106
 #define CLOCK_PIN   7         //       clock for AS1106
 #define LOAD_PIN    6         //       load CS for AS1106
-#define P1_UP       15        // P1_6  pin to signal up
-#define P1_DOWN     14        // P1_7  pin to signal down.
+
+#define P1_UP       12        // P2_4  pin to signal up
+#define P1_DOWN     13        // P2_5  pin to signal down.
+#define P2_UP       15        // P1_6  pin to signal up
+#define P2_DOWN     14        // P1_7  pin to signal down.
+
 #define TOP         B00000111
 #define BOTTOM      B11100000
         
@@ -32,6 +36,8 @@ void setup() {
   pinMode(LOAD_PIN,OUTPUT);
   pinMode(P1_UP, INPUT);
   pinMode(P1_DOWN, INPUT);
+  pinMode(P2_UP, INPUT);
+  pinMode(P2_DOWN, INPUT);
   digitalWrite(LOAD_PIN,HIGH);
   // BLink to test...
   digitalWrite(RED_LED, HIGH);
