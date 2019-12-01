@@ -51,15 +51,22 @@ struct BALL {
 // Proto: LedControl(int dataPin, int clkPin, int csPin, int numDevices=1);
 LedControl lc=LedControl(DATA_PIN, CLOCK_PIN, LOAD_PIN, 4);
 
-byte move_player(byte pos, int UP, int DOWN);
-struct BALL move_ball(struct BALL ball, struct POS p1, struct POS p2);
-
-unsigned long delaytime=100;
-
+//unsigned long delaytime=100;
+int sleep_cycles;
 struct POS p1, p2;
 struct BALL ball;
 ////////////////////////////////////////////////////////////////////
 
+
+///////////////////////// FUNCTION DECLARATION ////////////////////////////////
+
+byte move_player(byte pos, int UP, int DOWN);
+
+struct BALL move_ball(struct BALL ball, struct POS p1, struct POS p2);
+
+struct BALL reset_ball(struct BALL ball);
+
+/////////////////////////////////////////////////////////////////////////
 
 
 void setup() {
@@ -82,10 +89,15 @@ void setup() {
   p1.x    = 0;
   p2.y    = B00011100;
   p2.x    = 7;
+  sleep_cycles = 0;
+ /*
   ball.y  = B00100000;
   ball.x  = 4;
   ball.vx = 1;
   ball.vy = 0;
+*/
+  ball = reset_ball(ball);
+
 
   lc.init();
   lc.shutdown(0,false);
@@ -103,13 +115,22 @@ void loop() {
 
   p1.y = move_player(p1.y, P1_UP, P1_DOWN);
   p2.y = move_player(p2.y, P2_UP, P2_DOWN);
-  ball = move_ball(ball, p1, p2);
+  //ball = move_ball(ball, p1, p2);
 
-  lc.setColumn(0, ball.x, ball.y);
+  if (sleep_cycles > 2){
+    ball = move_ball(ball, p1, p2);
+    sleep_cycles = 0;
+  }
+  else {
+    sleep_cycles++;
+  }
+
+  
   lc.setColumn(0, p1.x, p1.y);
   lc.setColumn(0, p2.x, p2.y);
+  lc.setColumn(0, ball.x, ball.y);
 
-  delay(120);
+  delay(100);
 }
 
 
@@ -142,18 +163,6 @@ byte move_player(byte pos, int UP, int DOWN)
 
 struct BALL move_ball(struct BALL ball, struct POS p1, struct POS p2)
 {
-  // Check bouncing with a bat/player :
-  if ((ball.x == 1)){
-    if ((ball.y | p1.y) == p1.y){
-      ball.vx *= -1;
-    }
-  }
-  if ((ball.x == 6)){
-    if ((ball.y | p2.y) == p2.y){
-      ball.vx *= -1;
-    }
-  }
-
   // Check top-bottom boundaries :
   if ((ball.y == BTOP)){
     ball.vy = 1;
@@ -162,14 +171,43 @@ struct BALL move_ball(struct BALL ball, struct POS p1, struct POS p2)
     ball.vy = 0;
   }
 
+  // Update ball position :
+    // Update y. 
   if (ball.vy){
     ball.y = ball.y << 1;  
   }
   else {
     ball.y = ball.y >> 1;  
-  } 
+  }
+  
+  // Check bouncing with a bat/player :
+  if ((ball.x + ball.vx) == 0){
+    if ((ball.y | p1.y) == p1.y){
+      ball.vx *= -1;
+      ball.x += 2*ball.vx;
+    }
+  }
+  if ((ball.x + ball.vx) == 7){
+    if ((ball.y | p2.y) == p2.y){
+      ball.vx *= -1;
+      ball.x += 2*ball.vx;
+    }
+  }
 
+  // TEMP Update x, one step according to the velocity.
   ball.x += ball.vx;
+  
+  // Check bouncing with the wall
 
+  return ball;
+}
+
+struct BALL reset_ball(struct BALL)
+{ 
+  ball.y  = B00100000;
+  ball.x  = 4;
+  ball.vx = 1;
+  ball.vy = 0;
+  
   return ball;
 }
