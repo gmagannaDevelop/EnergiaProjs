@@ -7,21 +7,7 @@
 * Led Matrix test
 */
 
-
-/* LEGACY DEFINITIONS :
-#define DATA_PIN    5         //       data for AS1106
-#define CLOCK_PIN   7         //       clock for AS1106
-#define LOAD_PIN    6         //       load CS for AS1106
-
-#define P1_UP       12        // P2_4  pin to signal up
-#define P1_DOWN     13        // P2_5  pin to signal down.
-#define P2_UP       15        // P1_6  pin to signal up
-#define P2_DOWN     14        // P1_7  pin to signal down.
-
-#define TOP         B00000111
-#define BOTTOM      B11100000
-*/
-
+/////////////////////// STRUCTURES ///////////////////////////////////
 struct POS {
   byte y;
   int  x;
@@ -36,37 +22,45 @@ struct BALL {
   int vx;
   int vy;  
 };
+////////////////////////////////////////////////////////////////////
 
-#define DATA_PIN    12        //       data for AS1106
-#define CLOCK_PIN   10        //       clock for AS1106
-#define LOAD_PIN    11        //       load CS for AS1106
+///////////////////////// MACROS ///////////////////////////////////
+#define DATA_PIN    12         //       data for AS1106
+#define CLOCK_PIN   10         //       clock for AS1106
+#define LOAD_PIN    11         //       load CS for AS1106
 
-#define P1_UP       3        // P1_1  pin to signal up
-#define P1_DOWN     4        // P1_2  pin to signal down.
-#define P2_UP       5        // P1_3  pin to signal up
-#define P2_DOWN     6        // P1_4  pin to signal down.
+#define P1_UP       3          // P1_1  pin to signal up
+#define P1_DOWN     4          // P1_2  pin to signal down.
+#define P2_UP       5          // P1_3  pin to signal up
+#define P2_DOWN     6          // P1_4  pin to signal down.
 
 #define TOP         B00000111
 #define BOTTOM      B11100000    
+#define BTOP        B00000001
+#define BBOTTOM     B10000000  
 
+// This was defined for a 8x8 matrix
+#define P_RIGHT     1       
+#define P_LEFT      6
+#define B_RIGHT     0
+#define B_LEFT      7
+////////////////////////////////////////////////////////////////////
+
+
+///////////////////////// GLOBAL VARIABLES ///////////////////////////////
 // Proto: LedControl(int dataPin, int clkPin, int csPin, int numDevices=1);
 LedControl lc=LedControl(DATA_PIN, CLOCK_PIN, LOAD_PIN, 4);
-
-
 
 byte move_player(byte pos, int UP, int DOWN);
 void move_ball(struct BALL ball, struct POS p1, struct POS p2);
 
 unsigned long delaytime=100;
 
-/*
-byte pos_y1 = B00111000;
-byte pos_y2 = B00011100;
-byte bally = B00100000;
-*/
-
 struct POS p1, p2;
 struct BALL ball;
+////////////////////////////////////////////////////////////////////
+
+
 
 void setup() {
 
@@ -181,6 +175,8 @@ byte move_player(byte pos, int UP, int DOWN)
 
 void move_ball(struct BALL ball, struct POS p1, struct POS p2)
 {
-  if ()
+  if ((ball.x == 1) || (ball.x == 6)){
+    
+  }
     
 }
