@@ -41,6 +41,7 @@ LedControl lc=LedControl(DATA_PIN, CLOCK_PIN, LOAD_PIN, 4);
 
 
 byte move_player(byte pos, int UP, int DOWN);
+void move_ball(byte ball, byte p1, byte p2);
 
 unsigned long delaytime=100;
 byte pos_y1 = B00111000;
@@ -101,7 +102,7 @@ void loop() {
     delay(250);
     bally = bally >> 1;
       
-lc.clearDisplay(0);
+  lc.clearDisplay(0);
   
 
   
@@ -145,4 +146,10 @@ byte move_player(byte pos, int UP, int DOWN)
   }
 
   return pos;
+}
+
+
+void move_ball(byte ball, byte p1, byte p2)
+{ 
+    
 }
