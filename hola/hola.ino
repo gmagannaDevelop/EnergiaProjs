@@ -183,10 +183,21 @@ void move_player_one(void)
   int _down = 1 - digitalRead(P1_DOWN);
 
   if (_up) {
-    pos_y1 = pos_y1 >> 1;
+    if (pos_y1 == TOP) {
+      pos_y1 = BOTTOM;
+    } 
+    else {
+      pos_y1 = pos_y1 >> 1;  
+    }  
   }
+
   if (_down) {
-    pos_y1 = pos_y1 << 1;
+    if (pos_y1 == BOTTOM) {
+      pos_y1 = TOP;
+    } 
+    else {
+      pos_y1 = pos_y1 << 1;  
+    }
   }
   
 }
@@ -198,10 +209,21 @@ void move_player_two(void)
   int _down = 1 - digitalRead(P2_DOWN);
 
   if (_up) {
-    pos_y2 = pos_y2 >> 1;
+    if (pos_y2 == TOP) {
+      pos_y2 = BOTTOM;
+    } 
+    else {
+      pos_y2 = pos_y2 >> 1;  
+    }  
   }
+
   if (_down) {
-    pos_y2 = pos_y2 << 1;
+    if (pos_y2 == BOTTOM) {
+      pos_y2 = TOP;
+    } 
+    else {
+      pos_y2 = pos_y2 << 1;  
+    }
   }
   
 }
