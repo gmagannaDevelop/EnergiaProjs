@@ -22,6 +22,11 @@
 #define BOTTOM      B11100000
 */
 
+struct POS {
+  byte y;
+  int  x;
+};
+
 
 #define DATA_PIN    12        //       data for AS1106
 #define CLOCK_PIN   10        //       clock for AS1106
@@ -44,9 +49,14 @@ byte move_player(byte pos, int UP, int DOWN);
 void move_ball(byte ball, byte p1, byte p2);
 
 unsigned long delaytime=100;
+
+/*
 byte pos_y1 = B00111000;
 byte pos_y2 = B00011100;
 byte bally = B00100000;
+*/
+
+struct POS p1, p2, ball;
 
 void setup() {
 
@@ -63,6 +73,13 @@ void setup() {
   digitalWrite(RED_LED, HIGH);
   delay(1000);
   digitalWrite(RED_LED, LOW);
+
+  p1.y   = B00111000;
+  p1.x   = 0;
+  p2.y   = B00011100;
+  p2.x   = 7;
+  ball.y = B00100000;
+  ball.x = 4;
 
   lc.init();
   lc.shutdown(0,false);
@@ -84,11 +101,11 @@ void loop() {
   move_player_two();
   */
 
-  pos_y1 = move_player(pos_y1, P1_UP, P1_DOWN);
-  pos_y2 = move_player(pos_y2, P2_UP, P2_DOWN);
+  p1.y = move_player(p1.y, P1_UP, P1_DOWN);
+  p2.y = move_player(p2.y, P2_UP, P2_DOWN);
   
-  lc.setColumn(0, 0, pos_y1);
-  lc.setColumn(0, 7, pos_y2);
+  lc.setColumn(0, p1.x, p1.y);
+  lc.setColumn(0, p2.x, p2.y);
 
   delay(100);
 
