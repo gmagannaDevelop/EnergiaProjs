@@ -27,6 +27,15 @@ struct POS {
   int  x;
 };
 
+struct BALL {
+  /* vx should be {-1, 1} for both possible directions
+     vy should be {0,  1} because it will be used as a boolean flag.
+  */
+  byte y;
+  int x;
+  int vx;
+  int vy;  
+};
 
 #define DATA_PIN    12        //       data for AS1106
 #define CLOCK_PIN   10        //       clock for AS1106
@@ -46,7 +55,7 @@ LedControl lc=LedControl(DATA_PIN, CLOCK_PIN, LOAD_PIN, 4);
 
 
 byte move_player(byte pos, int UP, int DOWN);
-void move_ball(byte ball, byte p1, byte p2);
+void move_ball(struct BALL ball, struct POS p1, struct POS p2);
 
 unsigned long delaytime=100;
 
@@ -56,7 +65,8 @@ byte pos_y2 = B00011100;
 byte bally = B00100000;
 */
 
-struct POS p1, p2, ball;
+struct POS p1, p2;
+struct BALL ball;
 
 void setup() {
 
@@ -74,12 +84,14 @@ void setup() {
   delay(1000);
   digitalWrite(RED_LED, LOW);
 
-  p1.y   = B00111000;
-  p1.x   = 0;
-  p2.y   = B00011100;
-  p2.x   = 7;
-  ball.y = B00100000;
-  ball.x = 4;
+  p1.y    = B00111000;
+  p1.x    = 0;
+  p2.y    = B00011100;
+  p2.x    = 7;
+  ball.y  = B00100000;
+  ball.x  = 4;
+  ball.vx = 1;
+  ball.vy = 0;
 
   lc.init();
   lc.shutdown(0,false);
@@ -103,6 +115,7 @@ void loop() {
 
   p1.y = move_player(p1.y, P1_UP, P1_DOWN);
   p2.y = move_player(p2.y, P2_UP, P2_DOWN);
+
   
   lc.setColumn(0, p1.x, p1.y);
   lc.setColumn(0, p2.x, p2.y);
@@ -166,7 +179,8 @@ byte move_player(byte pos, int UP, int DOWN)
 }
 
 
-void move_ball(byte ball, byte p1, byte p2)
-{ 
+void move_ball(struct BALL ball, struct POS p1, struct POS p2)
+{
+  if ()
     
 }
