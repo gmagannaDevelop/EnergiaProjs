@@ -163,6 +163,11 @@ struct BALL move_ball(struct BALL ball, struct POS p1, struct POS p2)
   // Check top-bottom boundaries :
   if ((ball.y == BTOP)){    ball.vy = 1; }
   if ((ball.y == BBOTTOM)){ ball.vy = 0; }
+
+  // Update ball position :
+    // Update y. 
+  if (ball.vy){ ball.y = ball.y << 1; }
+  else {        ball.y = ball.y >> 1; }
   
   // Check bouncing with a bat/player :
   if ((ball.x + ball.vx) == 0){
@@ -186,11 +191,6 @@ struct BALL move_ball(struct BALL ball, struct POS p1, struct POS p2)
 
   // TEMP Update x, one step according to the velocity.
   ball.x += ball.vx;  
-
-  // Update ball position :
-    // Update y. 
-  if (ball.vy){ ball.y = ball.y << 1; }
-  else {        ball.y = ball.y >> 1; }
 
   return ball;
 }
