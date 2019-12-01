@@ -94,18 +94,12 @@ void setup() {
 
 }
 
+
 void loop() {
 
   // BLink to test
   digitalWrite(RED_LED, HIGH);
   lc.clearDisplay(0);
-
-  int i;
-  
-  /*
-  move_player_one();
-  move_player_two();
-  */
 
   p1.y = move_player(p1.y, P1_UP, P1_DOWN);
   p2.y = move_player(p2.y, P2_UP, P2_DOWN);
@@ -114,37 +108,8 @@ void loop() {
   lc.setColumn(0, ball.x, ball.y);
   lc.setColumn(0, p1.x, p1.y);
   lc.setColumn(0, p2.x, p2.y);
-  
 
-  delay(100);
-
-
-// PELOTA/
- /*
-  while(i <= 7 && i >= 0)
-    {
-      
-    
-    delay(250);
-    bally = bally >> 1;
-      
-  lc.clearDisplay(0);
-  
-
-  
-  if(bally == B00000001)
-  {
-      bally = bally << 1;
-      lc.setColumn(0,i,bally);
-  }
-
- 
-    lc.setColumn(0,i,bally);
-    i++;
-  
-  }
-  */
-  
+  delay(120);
 }
 
 
@@ -179,12 +144,12 @@ struct BALL move_ball(struct BALL ball, struct POS p1, struct POS p2)
 {
   // Check bouncing with a bat/player :
   if ((ball.x == 1)){
-    if (ball.y | p1.y == p1.y){
+    if ((ball.y | p1.y) == p1.y){
       ball.vx *= -1;
     }
   }
   if ((ball.x == 6)){
-    if (ball.y | p2.y == p2.y){
+    if ((ball.y | p2.y) == p2.y){
       ball.vx *= -1;
     }
   }
