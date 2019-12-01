@@ -39,8 +39,11 @@
 LedControl lc=LedControl(DATA_PIN, CLOCK_PIN, LOAD_PIN, 4);
 
 
+
+byte move_player(byte pos, int UP, int DOWN);
 void move_player_one(void);
 void move_player_two(void);
+
 
 unsigned long delaytime=100;
 byte pos_y1 = B00111000;
@@ -77,37 +80,20 @@ void loop() {
   lc.clearDisplay(0);
 
   int i;
-
+  
+  /*
   move_player_one();
   move_player_two();
+  */
 
+  pos_y1 = move_player(pos_y1, P1_UP, P1_DOWN);
+  pos_y2 = move_player(pos_y2, P2_UP, P2_DOWN);
+  
   lc.setColumn(0, 0, pos_y1);
   lc.setColumn(0, 7, pos_y2);
 
   delay(100);
-/*
-  do {
-    delay(250);
-    pos_y1 = pos_y1 >> 1;
-    pos_y2 = pos_y2 << 1;
-    lc.setColumn(0, 0, pos_y1);
-    lc.setColumn(0, 7, pos_y2);
-        
-    delay(250);
-   
-  } while ( (pos_y1 != TOP) && (pos_y2 != BOTTOM) ); 
-   
-  do {
-    delay(250);
-    pos_y1 = pos_y1 << 1;
-    pos_y2 = pos_y2 >> 1;
-    lc.setColumn(0, 0, pos_y1);
-    lc.setColumn(0, 7, pos_y2);
-        
-    delay(250);
-   
-  } while ( (pos_y1 != BOTTOM) && (pos_y2 != TOP) );
-*/
+
 
 // PELOTA/
  /*
@@ -138,6 +124,31 @@ lc.clearDisplay(0);
 }
 
 
+byte move_player(byte pos, int UP, int DOWN)
+{
+  int _up   = 1 - digitalRead(UP);
+  int _down = 1 - digitalRead(DOWN);
+
+  if (_up) {
+    if (pos == TOP) {
+      pos = BOTTOM;
+    } 
+    else {
+      pos = pos >> 1;  
+    }  
+  }
+
+  if (_down) {
+    if (pos == BOTTOM) {
+      pos = TOP;
+    } 
+    else {
+      pos = pos << 1;  
+    }
+  }
+
+  return pos;
+}
 
 void move_player_one(void)
 {
